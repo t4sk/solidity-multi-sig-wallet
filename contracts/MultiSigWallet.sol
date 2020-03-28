@@ -72,11 +72,6 @@ contract MultiSigWallet {
         emit Deposit(msg.sender, msg.value, address(this).balance);
     }
 
-    // NOTE: helper function to easily deposit in Remix
-    function deposit() payable external {
-        emit Deposit(msg.sender, msg.value, address(this).balance);
-    }
-
     function submitTransaction(address _to, uint _value, bytes memory _data)
         public
         onlyOwner
@@ -145,6 +140,10 @@ contract MultiSigWallet {
         transaction.numConfirmations -= 1;
 
         emit RevokeConfirmation(msg.sender, _txIndex);
+    }
+
+    function getOwners() public view returns (address[] memory) {
+        return owners;
     }
 
     function getTransactionCount() public view returns (uint) {

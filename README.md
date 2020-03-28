@@ -1,4 +1,19 @@
+# Solidity Multi-Sig Wallet
+
+### Install
+
 ```
-npx truffle install
+npm install
+```
+
+### Compile contract
+
+```
+npx truffle compile
+```
+
+### Test
+
+```
 npx truffle test
 ```
