@@ -240,4 +240,20 @@ contract("MultiSigWallet", accounts => {
       ).to.be.rejected
     })
   })
+
+  describe("getOwners", () => {
+    it("should return owners", async () => {
+      const res = await wallet.getOwners()
+
+      for (let i = 0; i < res.length; i++) {
+        assert.equal(res[i], owners[i])
+      }
+    })
+  })
+
+  describe("getTransactionCount", () => {
+    it("should return tx count", async () => {
+      assert.equal(await wallet.getTransactionCount(), 0)
+    })
+  })
 })
