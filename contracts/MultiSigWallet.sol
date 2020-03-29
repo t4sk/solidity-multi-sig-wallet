@@ -55,4 +55,7 @@ contract MultiSigWallet {
             - msg.value
             - current amount of ether in the contract (address(this).balance)
     */
+    function () payable external {
+        emit Deposit(msg.sender, msg.value, address(this).balance);
+    }
 }
