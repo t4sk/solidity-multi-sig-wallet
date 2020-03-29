@@ -46,4 +46,13 @@ contract MultiSigWallet {
 
         numConfirmationsRequired = _numConfirmationsRequired;
     }
+
+    /*
+    Exercise
+    1. Declare a payable fallback function
+        - it should emit the Deposit event with
+            - msg.sender
+            - msg.value
+            - current amount of ether in the contract (address(this).balance)
+    */
 }

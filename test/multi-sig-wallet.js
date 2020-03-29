@@ -46,4 +46,18 @@ contract("MultiSigWallet", accounts => {
       ).to.be.rejected
     })
   })
+
+  describe("fallback", async () => {
+    it("should receive ether", async () => {
+      const { logs } = await wallet.sendTransaction({
+        from: accounts[0],
+        value: 1,
+      })
+
+      assert.equal(logs[0].event, "Deposit")
+      assert.equal(logs[0].args.sender, accounts[0])
+      assert.equal(logs[0].args.amount, 1)
+      assert.equal(logs[0].args.balance, 1)
+    })
+  })
 })
