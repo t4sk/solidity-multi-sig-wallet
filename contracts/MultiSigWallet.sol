@@ -29,6 +29,7 @@ contract MultiSigWallet {
     Transaction[] public transactions;
 
     modifier onlyOwner() {
+        require(isOwner[msg.sender], "not owner");
         _;
     }
 
@@ -88,7 +89,17 @@ contract MultiSigWallet {
         public
         onlyOwner
     {
+        uint txIndex = transactions.length;
 
+        transactions.push(Transaction({
+            to: _to,
+            value: _value,
+            data: _data,
+            executed: false,
+            numConfirmations: 0
+        }));
+
+        emit SubmitTransaction(msg.sender, txIndex, _to, _value, _data);
     }
 
     function getTransactionCount() public view returns (uint) {
