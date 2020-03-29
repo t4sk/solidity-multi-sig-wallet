@@ -187,8 +187,18 @@ contract MultiSigWallet {
     */
     function revokeConfirmation(uint _txIndex)
         public
+        onlyOwner
+        txExists(_txIndex)
+        notExecuted(_txIndex)
     {
+        Transaction storage transaction = transactions[_txIndex];
 
+        require(transaction.isConfirmed[msg.sender], "tx not confirmed");
+
+        transaction.isConfirmed[msg.sender] = false;
+        transaction.numConfirmations -= 1;
+
+        emit RevokeConfirmation(msg.sender, _txIndex);
     }
 
     function getTransactionCount() public view returns (uint) {
