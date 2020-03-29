@@ -34,14 +34,17 @@ contract MultiSigWallet {
     }
 
     modifier txExists(uint _txIndex) {
+        require(_txIndex < transactions.length, "tx does not exist");
         _;
     }
 
     modifier notExecuted(uint _txIndex) {
+        require(!transactions[_txIndex].executed, "tx already executed");
         _;
     }
 
     modifier notConfirmed(uint _txIndex) {
+        require(!transactions[_txIndex].isConfirmed[msg.sender], "tx already confirmed");
         _;
     }
 
@@ -134,7 +137,12 @@ contract MultiSigWallet {
         notExecuted(_txIndex)
         notConfirmed(_txIndex)
     {
+        Transaction storage transaction = transactions[_txIndex];
 
+        transaction.isConfirmed[msg.sender] = true;
+        transaction.numConfirmations += 1;
+
+        emit ConfirmTransaction(msg.sender, _txIndex);
     }
 
     function getTransactionCount() public view returns (uint) {
