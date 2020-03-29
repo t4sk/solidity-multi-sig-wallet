@@ -60,4 +60,40 @@ contract("MultiSigWallet", accounts => {
       assert.equal(logs[0].args.balance, 1)
     })
   })
+
+  describe("submitTransaction", () => {
+    const to = accounts[3]
+    const value = 0
+    const data = "0x0123"
+
+    it("should submit transaction", async () => {
+      const { logs } = await wallet.submitTransaction(to, value, data, {
+        from: owners[0],
+      })
+
+      assert.equal(logs[0].event, "SubmitTransaction")
+      assert.equal(logs[0].args.owner, owners[0])
+      assert.equal(logs[0].args.txIndex, 0)
+      assert.equal(logs[0].args.to, to)
+      assert.equal(logs[0].args.value, value)
+      assert.equal(logs[0].args.data, data)
+
+      assert.equal(await wallet.getTransactionCount(), 1)
+
+      const tx = await wallet.getTransaction(0)
+      assert.equal(tx.to, to)
+      assert.equal(tx.value, value)
+      assert.equal(tx.data, data)
+      assert.equal(tx.numConfirmations, 0)
+      assert.equal(tx.executed, false)
+    })
+
+    it("should reject if not owner", async () => {
+      await expect(
+        wallet.submitTransaction(to, value, data, {
+          from: accounts[3],
+        })
+      ).to.be.rejected
+    })
+  })
 })

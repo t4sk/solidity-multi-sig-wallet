@@ -17,6 +17,21 @@ contract MultiSigWallet {
     mapping(address => bool) public isOwner;
     uint public numConfirmationsRequired;
 
+    struct Transaction {
+        address to;
+        uint value;
+        bytes data;
+        bool executed;
+        mapping(address => bool) isConfirmed;
+        uint numConfirmations;
+    }
+
+    Transaction[] public transactions;
+
+    modifier onlyOwner() {
+        _;
+    }
+
     /*
     Exercise
     1. Validate that the _owner is not empty
@@ -57,5 +72,42 @@ contract MultiSigWallet {
     */
     function () payable external {
         emit Deposit(msg.sender, msg.value, address(this).balance);
+    }
+
+    /* Exercise
+    1. Complete the onlyOwner modifier defined above.
+        - This modifier should require that msg.sender is an owner
+    2. Inside submitTransaction, create a new Transaction struct from the inputs
+       and append it the transactions array
+        - executed should be initialized to false
+        - numConfirmations should be initialized to 0
+    3. Emit the SubmitTransaction event
+        - txIndex should be the index of the newly created transaction
+    */
+    function submitTransaction(address _to, uint _value, bytes memory _data)
+        public
+        onlyOwner
+    {
+
+    }
+
+    function getTransactionCount() public view returns (uint) {
+        return transactions.length;
+    }
+
+    function getTransaction(uint _txIndex)
+        public
+        view
+        returns (address to, uint value, bytes memory data, bool executed, uint numConfirmations)
+    {
+        Transaction storage transaction = transactions[_txIndex];
+
+        return (
+            transaction.to,
+            transaction.value,
+            transaction.data,
+            transaction.executed,
+            transaction.numConfirmations
+        );
     }
 }
