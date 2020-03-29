@@ -145,6 +145,23 @@ contract MultiSigWallet {
         emit ConfirmTransaction(msg.sender, _txIndex);
     }
 
+    /* Exercise
+    1. Execute the transaction
+        - it should require that number of confirmations >= numConfirmationsRequired
+        - set executed to true
+        - execute the transaction using the low level call method
+        - require that the transaction executed successfully
+        - emit ExecuteTransaction
+    */
+    function executeTransaction(uint _txIndex)
+        public
+        onlyOwner
+        txExists(_txIndex)
+        notExecuted(_txIndex)
+    {
+        
+    }
+
     function getTransactionCount() public view returns (uint) {
         return transactions.length;
     }
