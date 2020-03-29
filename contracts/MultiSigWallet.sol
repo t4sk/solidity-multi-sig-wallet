@@ -174,6 +174,23 @@ contract MultiSigWallet {
         emit ExecuteTransaction(msg.sender, _txIndex);
     }
 
+    /* Exercise
+    1. Add appropriate modifiers
+        - only owner should be able to call this function
+        - transaction at _txIndex must exist
+        - transaction at _txIndex must be executed
+    2. Revoke the confirmation
+        - require that msg.sender has confirmed the transaction
+        - set isConfirmed to false for msg.sender
+        - decrement numConfirmations by 1
+        - emit RevokeConfirmation
+    */
+    function revokeConfirmation(uint _txIndex)
+        public
+    {
+
+    }
+
     function getTransactionCount() public view returns (uint) {
         return transactions.length;
     }
@@ -192,5 +209,15 @@ contract MultiSigWallet {
             transaction.executed,
             transaction.numConfirmations
         );
+    }
+
+    function isConfirmed(uint _txIndex, address _owner)
+        public
+        view
+        returns (bool)
+    {
+        Transaction storage transaction = transactions[_txIndex];
+
+        return transaction.isConfirmed[_owner];
     }
 }
