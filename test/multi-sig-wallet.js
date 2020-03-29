@@ -96,4 +96,55 @@ contract("MultiSigWallet", accounts => {
       ).to.be.rejected
     })
   })
+
+  describe("confirmTransaction", () => {
+    beforeEach(async () => {
+      const to = accounts[3]
+      const value = 0
+      const data = "0x0123"
+
+      await wallet.submitTransaction(to, value, data)
+    })
+
+    it("should confirm", async () => {
+      const { logs } = await wallet.confirmTransaction(0, {
+        from: owners[0],
+      })
+
+      assert.equal(logs[0].event, "ConfirmTransaction")
+      assert.equal(logs[0].args.owner, owners[0])
+      assert.equal(logs[0].args.txIndex, 0)
+
+      const tx = await wallet.getTransaction(0)
+      assert.equal(tx.numConfirmations, 1)
+    })
+
+    it("should reject if not owner", async () => {
+      await expect(
+        wallet.confirmTransaction(0, {
+          from: accounts[3],
+        })
+      ).to.be.rejected
+    })
+
+    it("should reject if tx does not exist", async () => {
+      await expect(
+        wallet.confirmTransaction(1, {
+          from: owners[0],
+        })
+      ).to.be.rejected
+    })
+
+    it("should reject if already confirmed", async () => {
+      await wallet.confirmTransaction(0, {
+        from: owners[0],
+      })
+
+      await expect(
+        wallet.confirmTransaction(0, {
+          from: owners[0],
+        })
+      ).to.be.rejected
+    })
+  })
 })

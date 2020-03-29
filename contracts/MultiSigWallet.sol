@@ -33,6 +33,18 @@ contract MultiSigWallet {
         _;
     }
 
+    modifier txExists(uint _txIndex) {
+        _;
+    }
+
+    modifier notExecuted(uint _txIndex) {
+        _;
+    }
+
+    modifier notConfirmed(uint _txIndex) {
+        _;
+    }
+
     /*
     Exercise
     1. Validate that the _owner is not empty
@@ -100,6 +112,29 @@ contract MultiSigWallet {
         }));
 
         emit SubmitTransaction(msg.sender, txIndex, _to, _value, _data);
+    }
+
+    /* Exercise
+    1. Complete the modifier txExists
+        - it should require that the transaction at txIndex exists
+    2. Complete the modifier notExecuted
+        - it should require that the transaction at txIndex is not yet executed
+    3. Complete the modifier notConfirmed
+        - it should require that the transaction at txIndex is not yet
+          confirmed by msg.sender
+    4. Confirm the transaction
+        - update the isConfirmed to true for msg.sender
+        - increment numConfirmation by 1
+        - emit ConfirmTransaction event for the transaction being confirmed
+    */
+    function confirmTransaction(uint _txIndex)
+        public
+        onlyOwner
+        txExists(_txIndex)
+        notExecuted(_txIndex)
+        notConfirmed(_txIndex)
+    {
+
     }
 
     function getTransactionCount() public view returns (uint) {
