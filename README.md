@@ -22,7 +22,11 @@ You are now ready to do the exercises below
 ### Exercises
 
 - [0 - Constructor](exercises/00-constructor.md)
+<<<<<<< HEAD
 - [1 - Fallback](exercises/01-fallback.md)
+=======
+- [1 - Fallback](exercies/01-fallback.md)
+>>>>>>> exercises
 - [2 - Submit Transaction](exercises/02-submit-transaction.md)
 - [3 - Confirm Transaction](exercises/03-confirm-transaction.md)
 - [4 - Execute Transaction](exercises/04-execute-transaction.md)
