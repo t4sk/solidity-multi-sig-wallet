@@ -22,6 +22,7 @@
   "homepage": "https://github.com/t4sk/solidity-multi-sig-wallet#readme",
   "dependencies": {},
   "devDependencies": {
+    "@truffle/hdwallet-provider": "^1.0.34",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "truffle": "^5.1.19"
