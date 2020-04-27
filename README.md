@@ -49,3 +49,24 @@ derive woman glance cruise bicycle music apology scorpion boy broom bamboo clay
 4902221c58878e6e8bccf35d68371b28f06d1fc7bb4e49baf919bf696460f92d
 af7592d51c7cde468ec5d45ec3ccda0401d150131876c8db3ca36324c009d837
 ```
+
+# ropsten faucet
+
+https://faucet.metamask.io/
+
+# deploy to ropsten
+
+Setup Infura
+
+```shell
+npm i --save-dev @truffle/hdwallet-provider
+```
+
+configure `truffle-config.js`
+
+Copy paste truffle seed to `.seed`
+`.gitignore` `.seed`
+
+```shell
+truffle migrate --network ropsten
+```
